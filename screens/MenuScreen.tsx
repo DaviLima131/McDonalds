@@ -51,6 +51,37 @@ const categories = ['Combos', 'Lanches', 'Fritas', 'Bebidas'];
 export default function MenuScreen({ navigation }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>('Combos');
     return (
+    <View style={styles.container}>
+        <StatusBar barStyle={"light-content"} backgroundColor={"#000000"} />
+        <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+        >
+            <View style={styles.headerImageWrapper}>
+                <Image
+                source={require('../images/restaurante.png')}
+                style={styles.headerImage}
+                resizeMode="cover"
+            />
+            <TouchableOpacity
+            style={[styles.headerButton, styles.headerButtonLeft]}
+            activeOpacity={0.8}
+            onPress={() => navigation.goBack()}
+            >
+                <Ionicons name="chevron-back" size={22} color={"#000000"} />
+             </TouchableOpacity>
+
+            <TouchableOpacity
+            style={[styles.headerButton, styles.headerButtonRight]}
+            activeOpacity={0.8}
+            onPress={() => {}}
+            >
+          <Feather name="file-text" size={20} color={"#000000"} />
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
+    </View>
 
     );
 }
@@ -74,7 +105,7 @@ const styles = StyleSheet.create({
     headerButton: {
 
     },
-    infoCard: {
+    info: {
 
     },
     infoCard: {
@@ -138,4 +169,10 @@ const styles = StyleSheet.create({
     productDescription: {
         
     },
+    headerButtonLeft: {
+
+    },
+    headerButtonRight: {
+
+    }
 })
