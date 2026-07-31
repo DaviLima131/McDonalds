@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     SafeAreaView,
     StatusBar,
-    SafeAreaViewBase,
 } from 'react-native';
  
 import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -22,8 +21,9 @@ import { getProdutoById } from "../data/produtos";
  
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
  
-export default function ProductDetail({ navigation, route }: Props) {
-    const produto = getProdutoById(route.params.productId);
+export default function ProductDetailScreen({ navigation, route }: Props) {
+    const { productId } = route.params;
+    const produto = getProdutoById(productId);
     const [quantidade, setQuantidade] = useState(1);
     const insets = useSafeAreaInsets();
  
@@ -35,7 +35,7 @@ export default function ProductDetail({ navigation, route }: Props) {
                     <Text style={styles.backLink}>Voltar</Text>
                 </TouchableOpacity>
             </SafeAreaView>
-        )
+        );
     }
  
     return (
@@ -48,16 +48,17 @@ export default function ProductDetail({ navigation, route }: Props) {
             ><Ionicons name="chevron-back" size={22} color={"#000000"} />
             </TouchableOpacity>
             <TouchableOpacity
-                style={[styles.headerButton, styles.hedaerButtonRight]}
+                style={[styles.headerButton, styles.headerButtonRight]}
                 activeOpacity={0.8}
-                onPress={() => { }}>
+                onPress={() => { }}
+            >
                 <Feather name="file-text" size={20} color={"#000000"} />
             </TouchableOpacity>
  
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={styles.ScrollContent}
-                showsVerticalScrollIndicator
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
             >
                 <Image
                     source={produto.image}
@@ -70,101 +71,130 @@ export default function ProductDetail({ navigation, route }: Props) {
                         style={styles.brandLogo}
                         resizeMode="contain"
                     />
-                    <Text style={styles.price}>McDonald's</Text>
+                    <Text style={styles.brandName}>McDonald's</Text>
                 </View>
                 <Text style={styles.productName}>{produto.name}</Text>
+               
+               <View style={styles.priceRow}>
+                    <Text style={styles.price}> {produto.price}</Text>
+                    <View style={styles.quantitySelector}>
+                         <TouchableOpacity
+                               style={styles.quantityButtonMinus}
+                               activeOpacity={0.8}
+                               onPress={() => {
+                                   if (quantidade - 1) setQuantidade(quantidade - 1)
+                                   
+                               }}
+                         >
+                              <Ionicons name="chevron-back" size={20} color={"#000000"} />
+                         </TouchableOpacity>
+                       
+                        <Text style={styles.quantityText}>{quantidade}</Text>
+ 
+                        <TouchableOpacity
+                        style={styles.quantityButtonPlus}
+                        activeOpacity={0.8}
+                        onPress={() => setQuantidade(quantidade + 1)}
+                        >
+                            <Ionicons name="chevron-forward" size={18} color={"#FFFFFF"} />
+                        </TouchableOpacity>
+                    </View>
+               </View>
+                <Text style={styles.sectionTitle}>Sobre</Text>
+                <Text style={styles.aboutText}>{produto.about}</Text>
+               
+                <View style={styles.ingredientsHeader}>
+                     <MaterialCommunityIcons
+                     name="chef-hat"
+                     size={20}
+                     color={"#000000"}
+                     />
+                     <Text style={styles.sectionTitle}>Ingredientes</Text>
+                </View>
+                {produto.ingredients.map((ingrediente, index) => (
+                    <View key={index} style={styles.ingredientRow}>
+                        <Text style={styles.bullet}>•</Text>
+                        <Text style={styles.ingredientText}>{ingrediente}</Text>
+                    </View>
+               ))}
+               <View style={styles.bottomSpacer} />
             </ScrollView>
-        </View>
+            <View
+            style={[
+                styles.footer,
+                {paddingBottom: Math.max(insets.bottom, -8)}
+                ]}
+                >
+                    <TouchableOpacity
+                    style={styles.addButton}
+                    activeOpacity={0.85}
+                    onPress={() => { }}
+                    >
+                        <Text style={styles.addButtonText}>Adicionar à sacola</Text>
+ 
+                    </TouchableOpacity>
+                    </View>
+       </View>
     )
 }
  
 const styles = StyleSheet.create({
     container: {
- 
     },
     scroll: {
- 
     },
-    ScrollContent: {
- 
+    scrollContent: {
     },
     headerButton: {
- 
     },
     headerButtonLeft: {
- 
     },
-    hedaerButtonRight: {
- 
+    headerButtonRight: {
     },
     productImage: {
- 
     },
     brandRow: {
- 
     },
     brandLogo: {
- 
     },
     brandName: {
- 
     },
     productName: {
- 
     },
     priceRow: {
- 
     },
     price: {
- 
     },
-    quantifySelector: {
- 
+    quantitySelector: {
     },
-    quantifyButtonMinus: {
- 
+    quantityButtonMinus: {
     },
-    quantifyButtonPlus: {
- 
+    quantityButtonPlus: {
     },
-    quantifyText: {
- 
+    quantityText: {
     },
     sectionTitle: {
- 
     },
     aboutText: {
- 
     },
     ingredientsHeader: {
- 
     },
     ingredientRow: {
- 
     },
     bullet: {
- 
     },
     ingredientText: {
- 
     },
     bottomSpacer: {
- 
     },
     footer: {
- 
     },
     addButton: {
- 
     },
     addButtonText: {
- 
     },
     errorText: {
- 
     },
     backLink: {
- 
     },
-})
- 
+});

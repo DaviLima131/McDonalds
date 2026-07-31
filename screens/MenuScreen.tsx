@@ -12,44 +12,16 @@ import { Ionicons, Feather } from '@expo/vector-icons';
  
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from "./HomeScreen";
+import { combos, getProdutos} from "../data/produtos";
  
 type Props = NativeStackScreenProps<RootStackParamList, 'Menu'>;
- 
-const combos = [
-    {
-        id: '1',
-        name: 'McOferta Média Big Mac Duplo',
-        description: 'Quatro hambúrgueres (100% carne bovina), alface americana',
-        price: "R$ 39,90",
-        image: require('../images/combo-big-mac-duplo.png'),
-    },
-    {
-        id: '2',
-        name: 'Novo Brabo Melt Onion Rings',
-        description: 'Dois hambúrgueres de carne 100% bovina, méquinese, a exclu...',
-        price: "R$ 41,50",
-        image: require('../images/combo-brabo-melt-onion-rings.png'),
-    },
-    {
-        id: '3',
-        name: 'McCrispy Chicken Elite',
-        description: 'Composto por pão tipo brioche com batata, molho Honey&Fire, ...',
-        price: "R$ 36,20",
-        image: require('../images/combo-mcrispy-elite.png'),
-    },
-    {
-        id: '4',
-        name: 'Duplo Cheddar McMelt',
-        description: 'Dois hambúrgueres (100% carne bovina), molho lácteo com queijo...',
-        price: "R$ 36,20",
-        image: require('../images/combo-duplo-cheddar-mcmelt.png'),
-    },
-];
- 
-const categories = ['Combos', 'Lanches', 'Fritas', 'Bebidas', 'Sobremesas'];
+
+const categories = ['Combos', 'Lanches', 'Fritas', 'Bebidas'];
  
 export default function MenuScreen({ navigation }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>('Combos');
+
+    const produtosDacategoria = getProdutos(categoriaSelecionada);
     return (
         <View style={styles.container}>
             <StatusBar barStyle={"light-content"} backgroundColor={"#000000"} />
@@ -136,9 +108,11 @@ export default function MenuScreen({ navigation }: Props) {
                             ]}
                             activeOpacity={0.85}
                             onPress={() => {
- 
+                                navigation.navigate('ProductDetail', {
+                                    productId: produto.id,
+                                });
                             }}
-                        >
+                    >
                             <View style={styles.productInfo}>
                                 <Text style={styles.productName}>{combo.name}</Text>
                                 <Text style={styles.productDescription} numberOfLines={2}>
